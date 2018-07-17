@@ -11,7 +11,9 @@ middlewareObj.addItem = (body, feedRef) => {
         date: body.date.toString(),
         score: body.score,
         imgUrl: body.image,
-        link: body.score
+        link: body.link,
+        zip: body.zip,
+        address: body.address
         // description: body.description
     });
     

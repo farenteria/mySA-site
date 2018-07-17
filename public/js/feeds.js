@@ -14,7 +14,7 @@ window.onclick = (e) => {
     }
 }
 
-function showModal(title, image, date, score, id){
+function showModal(title, image, date, score, link, zip, address, id){
     modal.style.display = "block";
     // These will just allow viewer to see previous values
     formElements[0].setAttribute("placeholder", title);
@@ -24,6 +24,9 @@ function showModal(title, image, date, score, id){
     formElements[1].setAttribute("value", image);
     formElements[2].setAttribute("value", date);
     formElements[3].setAttribute("value", score);
+    formElements[4].setAttribute("value", link);
+    formElements[5].setAttribute("value", zip);
+    formElements[6].setAttribute("value", address);
     // formElements[4].setAttribute("placeholder", post[4]);
     setId(id);
     setFormAction();

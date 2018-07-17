@@ -54,7 +54,7 @@ firebase.auth().onAuthStateChanged((user) => {
         console.log("logged in");
 
         // check for admin role
-        authModule.checkForAdmin(usersRef);
+        // authModule.checkForAdmin(usersRef);
     }else{
         console.log("not logged in");
     }
