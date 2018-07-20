@@ -18,6 +18,10 @@ button{
     padding: 10px;
 }
 
+img{
+    width: 500px;
+}
+
 a{
     text-decoration: none;
 }

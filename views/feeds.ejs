@@ -8,10 +8,10 @@
 
 <main>
     <form action="/feeds" method="POST" class="new-item-form" id="new-item-form">
-        <input type="text" name="title" placeholder="Title" class="field">
+        <input type="text" name="title" placeholder="Title" class="field" required>
         <!-- Using links until image upload is implemented later -->
-        <input type="text" name="image" placeholder="Image" class="field">
-        <input type="date" name="date" class="field">
+        <input type="text" name="image" placeholder="Image" class="field" required>
+        <input type="date" name="date" class="field" required>
         <input type="text" name="link" placeholder="Link" class="field">
         <input type="number" name="score" placeholder="Score" class="field">
         <input type="text" name="zip" placeholder="Zip Code" class="field">
@@ -31,9 +31,9 @@
     
                 <!-- Will eventually show image, but only text for now -->
                 <div class="image">
-                    <p><%= post.val().imgUrl %></p>
+                    <!-- <p><%= post.val().imgUrl %></p> -->
                     <% infoArr.push(post.val().imgUrl); %>
-                    <!-- <img src="<%= post.val().imgUrl %>" alt="Alt"> -->
+                    <img src="<%= post.val().imgUrl %>" alt="Alt">
                 </div>
     
                 <div class="date">
