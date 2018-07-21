@@ -13,12 +13,8 @@ const indexRoutes = require("./routes/index.js");
 // const feedsRoutes = require("./routes/feeds.js");
 
 // globabl variables
-var database;
-var feedRef;
-var usersRef;
 var newUserInfo;
 const PORT = 9000;
-const MAX_ITEMS = 20;
 
 // firebase configuration
 var config = {
@@ -32,23 +28,10 @@ firebase.initializeApp(config);
 
 firebase.auth().onAuthStateChanged((user) => {
     if(user){
-        database = firebase.database();
-        feedRef = database.ref("feed");
-        usersRef = database.ref("users");
+        databaseModule.initializeDb();
 
         if(authModule.checkIfNewUser()){
-            let newUser = usersRef.push(); // pushes EMPTY record to database
-        
-            // this will actually write out all of the required items to that record
-            newUser.set({
-                FirstName: newUserInfo.FirstName,
-                LastName: newUserInfo.LastName,
-                Email: newUserInfo.Email,
-                Password: newUserInfo.Password,
-                role: newUserInfo.role
-            });
-
-            console.log("Added new user to db");
+            databaseModule.insertNewUser(newUserInfo);
         }
 
         console.log("logged in");
@@ -75,15 +58,8 @@ app.use("/", indexRoutes);
 // Functions
 function getFeedAndRender(res){
     // Will redirect user to logout if user isn't admin
-    authModule.checkForAdmin(usersRef, res);
-
-    database = firebase.database();
-    feedRef = database.ref("feed");
-    
-    feedRef.orderByChild("date").limitToLast(MAX_ITEMS).once("value", (snapshot) => {
-        console.log(snapshot.id);
-        res.render("feeds", { posts: snapshot });
-    });
+    // authModule.checkForAdmin(usersRef, res);
+    databaseModule.orderFeed(res);
 }
 
 function redirectToGet(res){
@@ -112,21 +88,21 @@ app.post("/new_user", (req, res) => {
 
 // This will add new entry into the database 
 app.post("/feeds", authModule.isUserAuthenticated, (req, res) => {
-    databaseModule.addItem(req.body, feedRef);
+    databaseModule.addItem(req.body);
     getFeedAndRender(res);
 });
 
 // UPDATE ROUTES
 // update a feed item
 app.put("/feeds/:id", authModule.isUserAuthenticated, (req, res) => {
-    databaseModule.updateItem(req.params.id, req.body, feedRef);
+    databaseModule.updateItem(req.params.id, req.body);
     redirectToGet(res);
 });
 
 // DELETE ROUTES
 // delete a feed item
 app.delete("/feeds/:id", authModule.isUserAuthenticated, (req, res) => {
-    databaseModule.deleteItem(req.params.id, feedRef);
+    databaseModule.deleteItem(req.params.id);
     redirectToGet(res);
 });
 
