@@ -38,7 +38,6 @@ middlewareObj.orderFeed = (res) => {
 // pushed onto feedsRef of database
 middlewareObj.addItem = (body) => {
     let newItem = feedRef.push(); // pushes EMPTY record to database
-    console.log(newItem.key);
 
     // this will actually write out all of the required items to that record
     newItem.set({
@@ -53,7 +52,7 @@ middlewareObj.addItem = (body) => {
     });
 
     // add new item to associated zip
-
+    addZipConnection(body.zip, newItem.key);
     
     console.log("added to db");
 }
@@ -75,10 +74,15 @@ middlewareObj.updateItem = (id, body) => {
     let update = {};
 
     update[id] = itemData;
-
     console.log("Updated item with id", id);
-
     return feedRef.update(update);
+}
+
+// find body.zip in zipRef
+// insert newItem.key as a new node to that zip
+addZipConnection = (zip, id) => {
+    let data = firebase.database().ref(`zip/${zip}/ids`).push();
+    data.set(id);
 }
 
 module.exports = middlewareObj;
