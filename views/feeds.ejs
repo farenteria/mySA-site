@@ -1,57 +1,56 @@
 <% include partials/header %>
-<% var id = 0; %>
+
 <div id="feeds-page">
-<nav>
-    <h1>Feeds</h1>
-    <a href="/logout" id="logout">Logout</a>
+<nav class="navbar">
+    <h1 class="navbar__header">Feeds</h1>
+    <a href="/logout" class="navbar__logout">Logout</a>
 </nav>
 
 <main>
-    <form action="/feeds" method="POST" class="new-item-form" id="new-item-form">
-        <input type="text" name="title" placeholder="Title" class="field">
+    <form action="/feeds" method="POST" class="form">
+        <input type="text" name="title" placeholder="Title" class="form__field" required>
         <!-- Using links until image upload is implemented later -->
-        <input type="text" name="image" placeholder="Image" class="field">
-        <input type="date" name="date" class="field">
-        <input type="text" name="link" placeholder="Link" class="field">
-        <input type="number" name="score" placeholder="Score" class="field">
-        <input type="text" name="zip" placeholder="Zip Code" class="field">
-        <input type="text" name="address" placeholder="Address" class="field">
+        <input type="text" name="image" placeholder="Image" class="form__field" required>
+        <input type="date" name="date" class="form__field" required>
+        <input type="text" name="link" placeholder="Link" class="form__field">
+        <input type="number" name="score" placeholder="Score" class="form__field">
+        <input type="text" name="zip" placeholder="Zip Code" class="form__field">
+        <input type="text" name="address" placeholder="Address" class="form__field">
         <!-- <textarea name="description" form="new-item-form" class="field">Description</textarea> -->
         <button id="feed-butt">Submit</button>
     </form>
     
     <div class="feed">
-        <% posts.forEach((post) => { id = post.key;%>
+        <% posts.forEach((post) => { %>
             <% let infoArr = []; %>
-            <div class="item">
-                <div class="title">
+            <div class="feed__item">
+                <div>
                     <h2><%= post.val().title %></h2>
                     <% infoArr.push(post.val().title); %>
                 </div>
     
                 <!-- Will eventually show image, but only text for now -->
-                <div class="image">
-                    <p><%= post.val().imgUrl %></p>
+                <div>
                     <% infoArr.push(post.val().imgUrl); %>
-                    <!-- <img src="<%= post.val().imgUrl %>" alt="Alt"> -->
+                    <img src="<%= post.val().imgUrl %>" alt="Alt">
                 </div>
     
-                <div class="date">
+                <div>
                     <p><%= post.val().date %></p>
                     <% infoArr.push(post.val().date); %>
                 </div>
     
-                <div class="link">
+                <div>
                     <p><%= post.val().link %></p>
                     <% infoArr.push(post.val().link); %>
                 </div>
 
-                <div class="score">
+                <div>
                     <p><%= post.val().score %></p>
                     <% infoArr.push(post.val().score); %>
                 </div>
 
-                <div class="address">
+                <div>
                    <p><%= post.val().address %>, <%= post.val().zip %></p>
                     <% infoArr.push(post.val().zip); %>
                     <% infoArr.push(post.val().address); %>
@@ -62,8 +61,8 @@
                     <% infoArr.push(post.val().description); %>
                 </div> -->
 
-                <div class="other-butts">
-                    <button class="edit-butt" 
+                <div class="form__butts">
+                    <button class="form__edit" 
                         onclick="showModal('<%= infoArr[0] %>', 
                         '<%= `${infoArr[1]}` %>',
                         '<%= infoArr[2] %>',
@@ -74,7 +73,7 @@
                         '<%= post.key %>');">
                         Edit</button>
                     <form action="/feeds/<%= post.key %>?_method=DELETE" method="POST">
-                        <button id="delete-butt">Delete</button>
+                        <button class="form__delete">Delete</button>
                     </form>
                 </div>
             </div>
@@ -83,20 +82,20 @@
 </main>
 
 <!-- When user clicks on an edit button, modal popup will appear for item editing -->
-<aside id="edit-modal">
-    <div id="modal-content">
-        <span id="close">&times</span>
-        <form action="" method="POST" class="new-item-form" id="edit-item-form">
-            <input type="text" name="title" placeholder="Title" class="field">
+<aside class="modal">
+    <div class="modal__content">
+        <span class="close">&times</span>
+        <form action="" method="POST" class="form" id="edit-item-form">
+            <input type="text" name="title" placeholder="Title" class="form__field">
             <!-- Using links until image upload is implemented later -->
-            <input type="text" name="image" placeholder="Image" class="field">
-            <input type="date" name="date" class="field">
-            <input type="text" name="link" placeholder="Link" class="field">
-            <input type="number" name="score" placeholder="Score" class="field">
-            <input type="text" name="zip" placeholder="Zip Code" class="field">
-            <input type="text" name="address" placeholder="Address" class="field">
+            <input type="text" name="image" placeholder="Image" class="form__field">
+            <input type="date" name="date" class="form__field">
+            <input type="text" name="link" placeholder="Link" class="form__field">
+            <input type="number" name="score" placeholder="Score" class="form__field">
+            <input type="text" name="zip" placeholder="Zip Code" class="form__field">
+            <input type="text" name="address" placeholder="Address" class="form__field">
             <!-- <textarea name="description" form="new-item-form" class="field">Description</textarea> -->
-            <button id="edit-modal-butt">Submit</button>
+            <button>Submit</button>
         </form>
     </div>
 </aside>

@@ -1,23 +1,23 @@
 <% include partials/header %>
 
-<h1 class="page-title">Welcome to The Feed!</h1>
+<h1 class="navbar__header">Welcome to The Feed!</h1>
 
-<div class="auth-box">
-    <form action="/" method="POST">
-        <div class="input-container">
-            <i class="fa fa-user icon"></i>
-            <input type="text" name="username" placeholder="Username">
+<div class="box">
+    <form action="/" method="POST" class="form">
+        <div class="container">
+            <i class="fa fa-user form__icon"></i>
+            <input type="text" name="username" placeholder="Username" class="container__input">
         </div>
-        <div class="input-container">
-            <i class="fa fa-key icon"></i>
-            <input type="password" name="password" placeholder="Password">
+        <div class="container">
+            <i class="fa fa-key form__icon"></i>
+            <input type="password" name="password" placeholder="Password" class="container__input">
         </div>
-        <div class="input-container">
+        <div class="container">
             <button>Submit</button>
         </div>
     </form>
 
-    <div class="input container">
+    <div>
         <p>Don't have an account? <a href="/new_user">Sign Up Here</a></p>
     </div>
 </div>

@@ -1,14 +1,16 @@
 <% include partials/header %>
 
-<form action="/new_user" method="POST" class="new-item-form">
-    <input type="text" name="first" placeholder="First Name">
-    <input type="text" name="last" placeholder="Last Name">
-    <input type="text" name="email" placeholder="Email">
-    <input type="password" name="password" placeholder="Password">
-    <input type="password" name="confirm" placeholder="Confirm Password">
-    <button>Submit</button>
-</form>
+<div class="box">
+    <form action="/new_user" method="POST" class="form">
+        <input type="text" name="first" placeholder="First Name" class="form__field">
+        <input type="text" name="last" placeholder="Last Name" class="form__field">
+        <input type="text" name="email" placeholder="Email" class="form__field">
+        <input type="password" name="password" placeholder="Password" class="form__field">
+        <input type="password" name="confirm" placeholder="Confirm Password" class="form__field">
+        <button>Submit</button>
+    </form>
 
-<a href="/">Return to login screen</a>
+    <a href="/">Return to login screen</a>
+</div>
 
 <% include partials/footer %>

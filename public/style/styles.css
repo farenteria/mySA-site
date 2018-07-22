@@ -18,35 +18,69 @@ button{
     padding: 10px;
 }
 
+img{
+    width: 500px;
+}
+
 a{
     text-decoration: none;
 }
 
-nav h2{
-    align-self: center;
+main{
+    margin-top: 10px;
+    flex: 1 1 auto;
+    height: 100vh;
 }
 
-nav a{
-    align-self: center;
+#feed-butt{
+    width: 100%;
+    padding: 10px;
 }
 
-.input-container p{
-    margin-top: 0px;
-}
-
-.other-butts{
+#feeds-page{
     display: flex;
+    flex-flow: column;
 }
 
-#edit-butt{
-    background-color: #EBA653;
+/* BEM conventions */
+/* Blocks */
+.navbar{
+    text-align: center;
+    height: 100px;
+    /* background-color: #ffffff; */
+    width: 50%;
+    flex: 0 1 auto;
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-start;
+    margin: 0 auto;
 }
 
-#delete-butt{
-    background-color: #EF7976;
+.box{
+    padding: 10px;
+    background-color: #ffffff;
+    width: 50%;
+    margin: 0 auto;
+} 
+
+.feed{
+    overflow-y: scroll;
+    width: 70%;
+    margin: 0 auto;
 }
 
-#edit-modal{
+.form{
+    width: 60%;
+    margin: 0 auto;
+}
+
+.container{
+    display: flex;
+    flex-basis: 100%;
+    padding-bottom: 20px;
+}
+
+.modal{
     display: none;
     position: fixed;
     z-index: 1;
@@ -59,82 +93,28 @@ nav a{
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-#modal-content{
-    background-color: #ffffff;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888888;
-    width: 80%;
+/* Elements */
+.navbar__header{
+    align-self: center;
+    text-align: center;
 }
 
-nav{
-    text-align: center;
-    height: 100px;
-    /* background-color: #ffffff; */
-    width: 50%;
-    flex: 0 1 auto;
-    display: flex;
-    flex-flow: row;
-    justify-content: flex-start;
+.navbar__logout{
     margin: 0 auto;
+    align-self: center;
 }
 
-main{
-    margin-top: 10px;
-    flex: 1 1 auto;
-    height: 100vh;
-}
-
-.item{
+.feed__item{
     background-color: #ffffff;
     text-align: center;
 }
 
-.item div{
-    border-bottom: 0.5px solid #000000;
-}
-
-.page-title{
-    font-size: 2em;
-    text-align: center;
-}
-
-.auth-box{
-    padding: 10px;
-    background-color: #ffffff;
-    width: 50%;
-    margin: 0 auto;
-}
-
-.input-container{
-    display: flex;
-    flex-basis: 100%;
-    padding-bottom: 20px;
-}
-
-.icon{
-    background: #105cce;
-    color: #ffffff;
-    padding: 10px;
-}
-
-.input-container input{
+.container__input{
     width: 100%;
     padding: 10px;
 }
 
-.feed{
-    overflow-y: scroll;
-    width: 70%;
-    margin: 0 auto;
-}
-
-.new-item-form{
-    width: 60%;
-    margin: 0 auto;
-}
-
-.field{
+.form__field{
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 10px;
@@ -143,19 +123,34 @@ main{
     color: #8e8e8e;
 }
 
-#feed-butt{
-    width: 100%;
+.form__icon{
+    background: #105cce;
+    color: #ffffff;
     padding: 10px;
 }
 
-#logout{
-    margin: 0 auto;
+.form__butts{
+    display: flex;
 }
 
-#feeds-page{
-    display: flex;
-    flex-flow: column;
+.form__edit{
+    background-color: #EBA653;
 }
+
+.form__delete{
+    background-color: #EF7976;
+}
+
+.modal__content{
+    background-color: #ffffff;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888888;
+    width: 80%;
+}
+
+/* Modifiers */
+
 
 @media all and (min-width: 1024px){
     .auth-box{
