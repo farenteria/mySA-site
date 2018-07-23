@@ -14,7 +14,7 @@ const indexRoutes = require("./routes/index.js");
 
 // globabl variables
 var newUserInfo;
-const PORT = 9000;
+const PORT = process.env.PORT || 8081;
 
 // firebase configuration
 var config = {
