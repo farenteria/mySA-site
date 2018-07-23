@@ -81,7 +81,7 @@ middlewareObj.updateItem = (id, body) => {
 // find body.zip in zipRef
 // insert newItem.key as a new node to that zip
 addZipConnection = (zip, id) => {
-    let data = firebase.database().ref(`zip/${zip}/ids`).push();
+    let data = firebase.database().ref(`zip/${zip}`).push();
     data.set(id);
 }
 
