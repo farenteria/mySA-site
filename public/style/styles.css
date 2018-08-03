@@ -93,6 +93,20 @@ main{
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+.invalid{
+    background-color: #cc0000;
+    display: none;
+    animation-name: slideIn;
+    animation-duration: 0.4s;
+    -webkit-animation-name: slideIn; 
+    -webkit-animation-duration: 0.4s;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    left: 0;
+    top: 0;
+}
+
 /* Elements */
 .navbar__header{
     align-self: center;
@@ -151,11 +165,30 @@ main{
 
 /* Modifiers */
 
+/* Animations */
+@keyframes slideIn{
+    from{
+        top: -300px;
+        opacity: 0;
+    }
+    to{
+        top: 0;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes slideIn{
+    from{
+        top: -300px;
+        opacity: 0;
+    }
+    to{
+        top: 0;
+        opacity: 1;
+    }
+}
 
 @media all and (min-width: 1024px){
-    .auth-box{
-    }
-
     #new-item-form{
         width: 40%;
     }
