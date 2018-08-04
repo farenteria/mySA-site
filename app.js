@@ -2,14 +2,12 @@
 require("dotenv").config();
 const express = require("express");
 const firebase = require("firebase");
-const admin = require("firebase-admin");
 const bodyParser = require("body-parser");
 const path = require("path");
 const methodOverride = require("method-override");
 
 const databaseModule = require("./public/js/database.js");
 const authModule = require("./public/js/auth.js");
-const serviceAccount = require("./serviceAccountKey.json");
 
 // routes
 const indexRoutes = require("./routes/index.js");
@@ -18,18 +16,6 @@ const indexRoutes = require("./routes/index.js");
 // globabl variables
 var newUserInfo;
 const PORT = process.env.PORT || 8081;
-
-// firebase configuration
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL: process.env.DATABASE_URL
-// });
-
-// admin.auth().createUser({
-//     email: "fernando@gmail.com",
-//     password: "Password",
-//     admin: true
-// });
 
 var config = {
     apiKey: process.env.API_KEY,
