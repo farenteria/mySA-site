@@ -101,10 +101,20 @@ main{
     -webkit-animation-name: slideIn; 
     -webkit-animation-duration: 0.4s;
     position: fixed;
+    height: 75px;
     width: 100%;
     z-index: 1;
     left: 0;
     top: 0;
+    padding: 10px 10px 10px 10px;
+}
+
+.close{
+    color: #ffffff;
+    float: right;
+    font-weight: bold;
+    font-size: 28px;
+    margin-right: 20px;
 }
 
 /* Elements */
@@ -161,6 +171,11 @@ main{
     padding: 20px;
     border: 1px solid #888888;
     width: 80%;
+}
+
+.invalid__content{
+    color: #ffffff;
+    font-size: 20px;
 }
 
 /* Modifiers */
