@@ -1,4 +1,7 @@
 const firebase = require("firebase");
+
+const authModule = require("./auth.js");
+
 const MAX_ITEMS = 20;
 
 var database;
@@ -51,12 +54,14 @@ middlewareObj.isUserAdmin = (email, res, next) => {
 // Function will grab form data from body and use each input as newItem fields to be 
 // pushed onto feedsRef of database
 middlewareObj.addItem = (body) => {
-    // MAKE SURE NEWITEM HAS UNIQUE ID
-    let newItem = feedRef.push(); // pushes EMPTY record to database
-
     // this will actually write out all of the required items to that record
     // description holds an array for some reason
-    newItem.set({
+    let currentUser = authModule.getCurrentUser();
+
+    body.counter = 0;
+    body.timestamp = new Date();
+    
+    firebase.database().ref(`feed/${currentUser.uid}`).set({
         title: body.title,
         date: body.date.toString(),
         score: body.score,
@@ -64,6 +69,8 @@ middlewareObj.addItem = (body) => {
         link: body.link,
         zip: body.zip,
         address: body.address,
+        counter: body.counter,
+        timestamp: body.timestamp.toString()
         // description: body.description
     });
 
@@ -94,8 +101,7 @@ middlewareObj.updateItem = (id, body) => {
 }
 
 addZipConnection = (body) => {
-    let data = firebase.database().ref(`zip/${body.zip}`).push();
-    data.set(body);
+    firebase.database().ref(`zip/${body.zip}/${authModule.getCurrentUser().uid}`).set(body);
 }
 
 module.exports = middlewareObj;
