@@ -1,4 +1,5 @@
 const firebase = require("firebase");
+const databaseModule = require("./database.js");
 var middlewareObj = {};
 
 middlewareObj.login = (req, res, next) => {
@@ -11,6 +12,7 @@ middlewareObj.login = (req, res, next) => {
 // only let user on other pages if user is authenticated
 middlewareObj.isUserAuthenticated = (req, res, next) => {
     let user = firebase.auth().currentUser;
+
     if(user !== null){
         req.user = user;
         next();
@@ -29,7 +31,7 @@ middlewareObj.createUser = (first, last, email, password, confirm) =>{
         let errorCode = err.code;
         let errorMessage = err.message;
 
-        console.log(errorMessage);
+        console.log(errorMessage, errorCode);
         console.log("can't create user"); 
     }));
 
@@ -38,7 +40,7 @@ middlewareObj.createUser = (first, last, email, password, confirm) =>{
         LastName: last,
         Email: email,
         Password: password,
-        role: "admin"
+        role: "admin",
     }
 }
 
@@ -58,17 +60,17 @@ middlewareObj.logout = () => {
 }
 
 middlewareObj.checkForAdmin = (usersRef, res) => {
-    usersRef.once("value").then((snapshot) => {
-        snapshot.forEach((user) => {
-            if(user.val().Email === firebase.auth().currentUser.email){
-                if(user.val().role === "admin"){
-                    console.log("Is admin");
-                }else{
-                   return res.redirect("logout");
-                }
-            }
-        });
-    });
+    // usersRef.once("value").then((snapshot) => {
+    //     snapshot.forEach((user) => {
+    //         if(user.val().Email === firebase.auth().currentUser.email){
+    //             if(user.val().role === "admin"){
+    //                 console.log("Is admin");
+    //             }else{
+    //                return res.redirect("logout");
+    //             }
+    //         }
+    //     });
+    // });
 }
 
 function authenticate(email, password, next){
@@ -77,7 +79,6 @@ function authenticate(email, password, next){
             next();
         })
         .catch((err) => {
-            let errorCode = err.code;
             let errorMessage = err.message;
         
             console.log(errorMessage);

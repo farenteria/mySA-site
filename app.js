@@ -4,9 +4,10 @@ const express = require("express");
 const firebase = require("firebase");
 const bodyParser = require("body-parser");
 const path = require("path");
+const methodOverride = require("method-override");
+
 const databaseModule = require("./public/js/database.js");
 const authModule = require("./public/js/auth.js");
-const methodOverride = require("method-override");
 
 // routes
 const indexRoutes = require("./routes/index.js");
@@ -16,7 +17,6 @@ const indexRoutes = require("./routes/index.js");
 var newUserInfo;
 const PORT = process.env.PORT || 8081;
 
-// firebase configuration
 var config = {
     apiKey: process.env.API_KEY,
     authDomain: process.env.AUTH_DOMAIN,
@@ -31,6 +31,7 @@ firebase.auth().onAuthStateChanged((user) => {
         databaseModule.initializeDb();
 
         if(authModule.checkIfNewUser()){
+            newUserInfo.UniqueID = user.uid;
             databaseModule.insertNewUser(newUserInfo);
         }
 
@@ -83,13 +84,24 @@ app.post("/new_user", (req, res) => {
         req.body.confirm
     );
 
-    getFeedAndRender(res);
+    console.log(newUserInfo);
+
+    redirectToGet(res);
 });
 
 // This will add new entry into the database 
 app.post("/feeds", authModule.isUserAuthenticated, (req, res) => {
     databaseModule.addItem(req.body);
     getFeedAndRender(res);
+
+    // let isAuth = authModule.isUserAuthenticated(req);
+
+    // if(isAuth){
+    //     databaseModule.addItem(req.body);
+    //     getFeedAndRender(res);
+    // }else{
+    //     res.redirect("/");
+    // }
 });
 
 // UPDATE ROUTES

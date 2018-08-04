@@ -6,17 +6,22 @@
     <a href="/logout" class="navbar__logout">Logout</a>
 </nav>
 
+<div class="invalid">
+    <span class="close">&times</span>
+    <p class="invalid__content">Please select a date that hasn't already passed!</p>
+</div>
+
 <main>
-    <form action="/feeds" method="POST" class="form">
+    <form action="/feeds" method="POST" class="form" id="new-item-form">
         <input type="text" name="title" placeholder="Title" class="form__field" required>
         <!-- Using links until image upload is implemented later -->
         <input type="text" name="image" placeholder="Image" class="form__field" required>
-        <input type="date" name="date" class="form__field" required>
+        <input type="date" name="date" class="form__field date" id="date_1" onchange="checkNewItemDate()" required>
         <input type="text" name="link" placeholder="Link" class="form__field">
         <input type="number" name="score" placeholder="Score" class="form__field">
         <input type="text" name="zip" placeholder="Zip Code" class="form__field">
         <input type="text" name="address" placeholder="Address" class="form__field">
-        <!-- <textarea name="description" form="new-item-form" class="field">Description</textarea> -->
+        <!-- <textarea name="description" form="new-item-form" placeholder="Description" class="form__field"></textarea> -->
         <button id="feed-butt">Submit</button>
     </form>
     
@@ -56,10 +61,10 @@
                     <% infoArr.push(post.val().address); %>
                 </div>
     
-                <!-- <div class="description">
+                <div class="description">
                     <p><%= post.val().description %></p>
                     <% infoArr.push(post.val().description); %>
-                </div> -->
+                </div>
 
                 <div class="form__butts">
                     <button class="form__edit" 
@@ -89,12 +94,12 @@
             <input type="text" name="title" placeholder="Title" class="form__field">
             <!-- Using links until image upload is implemented later -->
             <input type="text" name="image" placeholder="Image" class="form__field">
-            <input type="date" name="date" class="form__field">
+            <input type="date" name="date" class="form__field date">
             <input type="text" name="link" placeholder="Link" class="form__field">
             <input type="number" name="score" placeholder="Score" class="form__field">
             <input type="text" name="zip" placeholder="Zip Code" class="form__field">
             <input type="text" name="address" placeholder="Address" class="form__field">
-            <!-- <textarea name="description" form="new-item-form" class="field">Description</textarea> -->
+            <textarea name="description" form="new-item-form" class="field">Description</textarea>
             <button>Submit</button>
         </form>
     </div>

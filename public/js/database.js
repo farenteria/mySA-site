@@ -1,4 +1,7 @@
 const firebase = require("firebase");
+
+const authModule = require("./auth.js");
+
 const MAX_ITEMS = 20;
 
 var database;
@@ -14,18 +17,16 @@ middlewareObj.initializeDb = () => {
 }
 
 middlewareObj.insertNewUser = (newUserInfo) => {
-    let newUser = usersRef.push(); // pushes EMPTY record to database
-        
-    // this will actually write out all of the required items to that record
-    newUser.set({
+    firebase.database().ref(`users/${newUserInfo.UniqueID}`).set({
         FirstName: newUserInfo.FirstName,
         LastName: newUserInfo.LastName,
         Email: newUserInfo.Email,
         Password: newUserInfo.Password,
-        role: newUserInfo.role
+        role: newUserInfo.role,
+        UniqueID: newUserInfo.UniqueID
     });
 
-    console.log("Added new user to db");    
+    console.log("Added new user to db", newUserInfo);    
 }
 
 middlewareObj.orderFeed = (res) => {
@@ -34,26 +35,47 @@ middlewareObj.orderFeed = (res) => {
     });
 }
 
+middlewareObj.isUserAdmin = (email, res, next) => {
+    usersRef.once("value").then((userSnapshot) => {
+        userSnapshot.forEach((user) => {
+            if(user.val().Email.toLowerCase() === email.toLowerCase()){   
+                if(user.val().role !== null && user.val().role === "admin"){
+                    console.log("Is admin");
+                    return next();
+                }else{
+                    console.log("Isn't admin");
+                    return res.redirect("/");
+                }
+            }   
+        });
+    });
+}
+
 // Function will grab form data from body and use each input as newItem fields to be 
 // pushed onto feedsRef of database
 middlewareObj.addItem = (body) => {
-    let newItem = feedRef.push(); // pushes EMPTY record to database
-
     // this will actually write out all of the required items to that record
-    newItem.set({
+    // description holds an array for some reason
+    let currentUser = authModule.getCurrentUser();
+
+    body.counter = 0;
+    body.timestamp = new Date();
+    
+    firebase.database().ref(`feed/${currentUser.uid}`).set({
         title: body.title,
         date: body.date.toString(),
         score: body.score,
         imgUrl: body.image,
         link: body.link,
         zip: body.zip,
-        address: body.address
+        address: body.address,
+        counter: body.counter,
+        timestamp: body.timestamp.toString()
         // description: body.description
     });
 
     // add new item to associated zip
-    addZipConnection(body.zip, newItem.key);
-    
+    addZipConnection(body);
     console.log("added to db");
 }
 
@@ -78,11 +100,8 @@ middlewareObj.updateItem = (id, body) => {
     return feedRef.update(update);
 }
 
-// find body.zip in zipRef
-// insert newItem.key as a new node to that zip
-addZipConnection = (zip, id) => {
-    let data = firebase.database().ref(`zip/${zip}`).push();
-    data.set(id);
+addZipConnection = (body) => {
+    firebase.database().ref(`zip/${body.zip}/${authModule.getCurrentUser().uid}`).set(body);
 }
 
 module.exports = middlewareObj;
