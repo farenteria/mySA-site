@@ -73,6 +73,10 @@ middlewareObj.checkForAdmin = (usersRef, res) => {
     // });
 }
 
+middlewareObj.getCurrentUser = () => {
+    return firebase.auth().currentUser;
+}
+
 function authenticate(email, password, next){
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((user) => {
