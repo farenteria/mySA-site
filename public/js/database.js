@@ -14,14 +14,7 @@ middlewareObj.initializeDb = () => {
 }
 
 middlewareObj.insertNewUser = (newUserInfo) => {
-    // let data = firebase.database().ref(`zip/${zip}`).push();
-    // data.set(id);
-
-    // let newUser = usersRef.push(); // pushes EMPTY record to database
-    let newUser = firebase.database().ref(`users/${newUserInfo.UniqueID}`).push();
-        
-    // this will actually write out all of the required items to that record
-    newUser.set({
+    firebase.database().ref(`users/${newUserInfo.UniqueID}`).set({
         FirstName: newUserInfo.FirstName,
         LastName: newUserInfo.LastName,
         Email: newUserInfo.Email,
@@ -30,7 +23,7 @@ middlewareObj.insertNewUser = (newUserInfo) => {
         UniqueID: newUserInfo.UniqueID
     });
 
-    console.log("Added new user to db");    
+    console.log("Added new user to db", newUserInfo);    
 }
 
 middlewareObj.orderFeed = (res) => {
@@ -42,7 +35,6 @@ middlewareObj.orderFeed = (res) => {
 middlewareObj.isUserAdmin = (email, res, next) => {
     usersRef.once("value").then((userSnapshot) => {
         userSnapshot.forEach((user) => {
-            console.log(user.val().Email);
             if(user.val().Email.toLowerCase() === email.toLowerCase()){   
                 if(user.val().role !== null && user.val().role === "admin"){
                     console.log("Is admin");
@@ -101,7 +93,7 @@ middlewareObj.updateItem = (id, body) => {
     return feedRef.update(update);
 }
 
-addZipConnection = (body, id) => {
+addZipConnection = (body) => {
     let data = firebase.database().ref(`zip/${body.zip}`).push();
     data.set(body);
 }
