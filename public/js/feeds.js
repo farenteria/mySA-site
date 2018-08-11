@@ -11,6 +11,7 @@ let postId;
 window.onclick = (e) => {
     if(e.target == modal[0]){
         closeModal(modal[0]);
+    }else if(e.target == invalid[0]){
         closeModal(invalid[0]);
     }
 }
