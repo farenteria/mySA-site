@@ -56,12 +56,10 @@ middlewareObj.isUserAdmin = (email, res, next) => {
 middlewareObj.addItem = (body) => {
     // this will actually write out all of the required items to that record
     // description holds an array for some reason
-    let currentUser = authModule.getCurrentUser();
-
     body.counter = 0;
     body.timestamp = new Date();
     
-    firebase.database().ref(`feed/${currentUser.uid}`).set({
+    let key = feedRef.push({
         title: body.title,
         date: body.date.toString(),
         score: body.score,
@@ -70,12 +68,12 @@ middlewareObj.addItem = (body) => {
         zip: body.zip,
         address: body.address,
         counter: body.counter,
-        timestamp: body.timestamp.toString()
-        // description: body.description
-    });
+        timestamp: body.timestamp.toString(),
+        description: body.description  
+    }).key;
 
     // add new item to associated zip
-    addZipConnection(body);
+    addZipConnection(body, key);
     console.log("added to db");
 }
 
@@ -100,8 +98,8 @@ middlewareObj.updateItem = (id, body) => {
     return feedRef.update(update);
 }
 
-addZipConnection = (body) => {
-    firebase.database().ref(`zip/${body.zip}/${authModule.getCurrentUser().uid}`).set(body);
+addZipConnection = (body, key) => {
+    firebase.database().ref(`zip/${body.zip}/${key}`).set(body);
 }
 
 module.exports = middlewareObj;
