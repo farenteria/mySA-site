@@ -58,8 +58,10 @@ middlewareObj.addItem = (body) => {
     // description holds an array for some reason
     body.counter = 0;
     body.timestamp = new Date();
-    
-    let key = feedRef.push({
+
+    let updates = {};
+    let key = firebase.database().ref().child("feed").push().key;
+    let data = {        
         title: body.title,
         date: body.date.toString(),
         score: body.score,
@@ -68,12 +70,17 @@ middlewareObj.addItem = (body) => {
         zip: body.zip,
         address: body.address,
         counter: body.counter,
+        postId: key,
         timestamp: body.timestamp.toString(),
-        description: body.description  
-    }).key;
+        description: body.description,     
+    };
+
+    updates[`feed/${key}`] = data;
+
+    firebase.database().ref().update(updates);
 
     // add new item to associated zip
-    addZipConnection(body, key);
+    addZipConnection(data, key);
     console.log("added to db");
 }
 
